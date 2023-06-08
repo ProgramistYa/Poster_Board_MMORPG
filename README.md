@@ -19,7 +19,7 @@
 
 ##### 2) Клонировать репозиторий
 
-    git clone https://github.com/   /   .git
+    git clone https://github.com/ProgramistYa/Poster_Board_MMORPG.git
 
 ##### 3) Создать виртуальное окружение
 
