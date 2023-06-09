@@ -70,7 +70,7 @@ class EditPost(PermissionRequiredMixin, UpdateView):
 
     def get_object(self, **kwargs):
         id = self.kwargs.get('pk')
-        return Post.object.get(pk=id)
+        return Post.objects.get(pk=id)
 
     def form_valid(self, form):
         form.save()
@@ -127,7 +127,8 @@ class Responses(LoginRequiredMixin, ListView):
 
         if self.kwargs.get('pk'):
             return HttpResponseRedirect('/responses')
-        return self.get(request,  *args, **kwargs)
+        return self.get(request, *args, **kwargs)
+
 
 @login_required
 def response_accept(request, **kwargs):
@@ -167,11 +168,3 @@ class Respond(LoginRequiredMixin, CreateView):
         respond.save()
         #
         return redirect(f'/post/{self.kwargs.get("pk")}')
-
-
-
-
-
-
-
-

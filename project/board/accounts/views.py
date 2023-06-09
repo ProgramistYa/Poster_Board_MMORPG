@@ -48,12 +48,12 @@ def auth_code(request):
     global code_not_correct
     code_not_correct = ""
 
-    if not UsersAuth.objects.get(user=request.user).exists:
+    if not UsersAuth.objects.get(user=request.user).exists():
         add_user = UsersAuth()
         add_user.user = request.user
         add_user.save()
 
-    user = UsersAuth.object.get(user=request.user)
+    user = UsersAuth.objects.get(user=request.user)
     user.code = random.randint(1000, 9999)
     user.save()
     send_mail(
