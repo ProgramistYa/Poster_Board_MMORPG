@@ -139,8 +139,6 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 
-# Чтобы allauth распознал нашу форму как ту, что должна выполняться вместо формы по умолчанию
-ACCOUNT_FORMS = {'signup': 'sign.models.BaseRegisterForm'}
 
 SITE_URL = 'http://127.0.0.1:8000'
 

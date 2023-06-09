@@ -48,7 +48,7 @@ def auth_code(request):
     global code_not_correct
     code_not_correct = ""
 
-    if not UsersAuth.objects.get(user=request.user):
+    if not UsersAuth.objects.get(user=request.user).exists:
         add_user = UsersAuth()
         add_user.user = request.user
         add_user.save()

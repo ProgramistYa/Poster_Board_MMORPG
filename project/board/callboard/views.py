@@ -1,5 +1,5 @@
 from .models import Post, Response, Category
-from .forms import PostForm, ResponsesFilterForm
+from .forms import PostForm, ResponsesFilterForm, RespondForm
 
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -129,7 +129,44 @@ class Responses(LoginRequiredMixin, ListView):
             return HttpResponseRedirect('/responses')
         return self.get(request,  *args, **kwargs)
 
-#@login_required
+@login_required
+def response_accept(request, **kwargs):
+    if request.user.is_authenticated:
+        response = Response.objects.get(id=kwargs.get('pk'))
+        response.status = True
+        response.save()
+        #
+        return HttpResponseRedirect('/responses')
+    else:
+        return HttpResponseRedirect('/accounts/login')
+
+
+@login_required
+def response_delete(request, **kwargs):
+    if request.user.is_authenticated:
+        response = Response.objects.get(id=kwargs.get('pk'))
+        response.delete()
+        return HttpResponseRedirect('/responses')
+    else:
+        return HttpResponseRedirect('/accounts/login')
+
+
+class Respond(LoginRequiredMixin, CreateView):
+    model = Response
+    template_name = 'respond.html'
+    form_class = RespondForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+        respond = form.save(commit=False)
+        respond.author = User.objects.get(id=self.request.user.id)
+        respond.post = Post.objects.get(id=self.kwargs.get('pk'))
+        respond.save()
+        #
+        return redirect(f'/post/{self.kwargs.get("pk")}')
 
 
 

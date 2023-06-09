@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import Index, PostItem, CreatPost, EditPost, DeletePost, Responses
 from django.shortcuts import redirect
+from .views import Index, PostItem, CreatPost, EditPost, DeletePost, Responses, Respond, \
+    response_accept, response_delete
 
 urlpatterns = [
     path('index', Index.as_view(), name='index'),
@@ -11,6 +12,8 @@ urlpatterns = [
     path('post/<int:pk>/delete', DeletePost.as_view()),
     path('responses', Responses.as_view(), name='responses'),
     path('responses/<int:pk>', Responses.as_view(), name='responses'),
-
+    path('response/accept/<int:pk>', response_accept),
+    path('response/delete/<int:pk>', response_delete),
+    path('respond/<int:pk>', Respond.as_view(), name='respond'),
 
 ]
