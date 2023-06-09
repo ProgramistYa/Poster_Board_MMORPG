@@ -14,11 +14,11 @@ class Post(models.Model):
            ('tanners', 'Кожевники'),
            ('potion_makers', 'Зельевары'),
            ('spell_masters', 'Мастера заклинаний'))
-    image = models.ImageField(upload_to='media/', blank=True)
-    text = models.TextField()
     category = models.CharField(max_length=15, choices=CAT, verbose_name='Категория')
     dateCreation = models.DateTimeField(auto_now_add=True)
-    title = models.CharField(max_length=255, verbose_name='Название')
+    title = models.CharField(max_length=256, verbose_name='Название')
+    text = models.TextField()
+    image = models.ImageField(upload_to='media/', blank=True)
     objects = models.Manager()
 
     def __str__(self):
@@ -30,3 +30,13 @@ class Response(models.Model):
     text = models.TextField(verbose_name='Текст')
     status = models.BooleanField(default=False)
     dateCreation = models.DateTimeField(auto_now_add=True)
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return f'{self.name}'
+
+
+#example.com - sites - add sites

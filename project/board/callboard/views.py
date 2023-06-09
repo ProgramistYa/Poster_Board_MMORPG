@@ -1,4 +1,4 @@
-from .models import Post, Response
+from .models import Post, Response, Category
 from .forms import PostForm, ResponsesFilterForm
 
 from django.contrib.auth.models import User
@@ -8,6 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.shortcuts import redirect
+
+from django.shortcuts import get_object_or_404
 
 
 class Index(ListView):
@@ -110,13 +112,13 @@ class Responses(LoginRequiredMixin, ListView):
         context['title'] = title
         if title:
             post_id = Post.objects.get(title=title)
-            context['filter_responses'] = list(Responses.object.filter(post_id=post_id).order_by('-dateCreation'))
+            context['filter_responses'] = list(Responses.objects.filter(post_id=post_id).order_by('-dateCreation'))
             context['response_post_id'] = post_id.id
         else:
             context['filter_responses'] = list(
-                Responses.object.filter(post_id__author_id=self.request.user).order_by('-dateCreation'))
+                Responses.objects.filter(post_id__author_id=self.request.user).order_by('-dateCreation'))
             context['myresponses'] = list(
-                Responses.object.filter(author_id=self.request.user).order_by('-dateCreation'))
+                Responses.objects.filter(author_id=self.request.user).order_by('-dateCreation'))
             return context
 
     def post(self, request, *args, **kwargs):
