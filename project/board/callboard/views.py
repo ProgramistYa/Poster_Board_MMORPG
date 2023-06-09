@@ -1,10 +1,11 @@
 from .models import Post, Response
-from .forms import PostForm
+from .forms import PostForm, ResponsesFilterForm
 
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.shortcuts import redirect
 
@@ -91,3 +92,47 @@ class DeletePost(PermissionRequiredMixin, DeleteView):
 
 
 title = str("")
+
+
+class Responses(LoginRequiredMixin, ListView):
+    model = Response
+    template_name = 'responses.html'
+    context_object_name = 'responses'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(Responses, self).get_context_data(**kwargs)
+        global title
+
+        if self.kwargs.get('pk') and Post.objects.filter(id=self.kwargs.get('pk')).exists():
+            title = str(Post.objects.get(id=self.kwargs.get('pk')).title)
+            print(title)
+        context['form'] = ResponsesFilterForm(self.request.user, initial={'title': title})
+        context['title'] = title
+        if title:
+            post_id = Post.objects.get(title=title)
+            context['filter_responses'] = list(Responses.object.filter(post_id=post_id).order_by('-dateCreation'))
+            context['response_post_id'] = post_id.id
+        else:
+            context['filter_responses'] = list(
+                Responses.object.filter(post_id__author_id=self.request.user).order_by('-dateCreation'))
+            context['myresponses'] = list(
+                Responses.object.filter(author_id=self.request.user).order_by('-dateCreation'))
+            return context
+
+    def post(self, request, *args, **kwargs):
+        global title
+        title = self.request.POST.get('title')
+
+        if self.kwargs.get('pk'):
+            return HttpResponseRedirect('/responses')
+        return self.get(request,  *args, **kwargs)
+
+#@login_required
+
+
+
+
+
+
+
+

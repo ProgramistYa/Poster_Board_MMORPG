@@ -76,9 +76,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -130,4 +127,28 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
+ACCOUNT_SIGNUP_REDIRECT_URL = "/accounts/profile"
+
+# Дальнейшая конфигурация проекта будет ориентирована на различные способы регистрации/авторизации.
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+
+# Чтобы allauth распознал нашу форму как ту, что должна выполняться вместо формы по умолчанию
+ACCOUNT_FORMS = {'signup': 'sign.models.BaseRegisterForm'}
+
+SITE_URL = 'http://127.0.0.1:8000'
+
+EMAIL_HOST_USER = "yakudza327@mail.ru"
+EMAIL_HOST_PASSWORD = ""
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = 'yakudza327@mail.ru'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

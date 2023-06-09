@@ -38,11 +38,11 @@
 
           {% if user.is_authenticated %}
           <li class="nav-item">
-              <a class="nav-link" href="">Мой профиль</a>
+              <a class="nav-link" href="{% url 'account_profile' %}">Мой профиль</a>
           </li>
           {% else %}
           <li class="nav-item">
-              <a class="nav-link" href="">Зарегистрироваться/Войти</a>
+              <a class="nav-link" href="{% url 'account_login' %}">Зарегистрироваться/Войти</a>
           </li>
           {% endif %}
         </ul>

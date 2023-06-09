@@ -21,6 +21,8 @@ class Post(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название')
     objects = models.Manager()
 
+    def __str__(self):
+        return f'{self.title}'
 
 class Response(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
