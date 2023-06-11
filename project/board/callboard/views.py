@@ -1,5 +1,6 @@
 from .models import Post, Response, Category
 from .forms import PostForm, ResponsesFilterForm, RespondForm
+from .tasks import respond_send_email, respond_accept_send_email
 
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -136,7 +137,7 @@ def response_accept(request, **kwargs):
         response = Response.objects.get(id=kwargs.get('pk'))
         response.status = True
         response.save()
-        #
+        respond_accept_send_email.delay(response_id=response.id)
         return HttpResponseRedirect('/responses')
     else:
         return HttpResponseRedirect('/accounts/login')
@@ -166,5 +167,5 @@ class Respond(LoginRequiredMixin, CreateView):
         respond.author = User.objects.get(id=self.request.user.id)
         respond.post = Post.objects.get(id=self.kwargs.get('pk'))
         respond.save()
-        #
+        respond_send_email.delay(respond_id=respond.id)
         return redirect(f'/post/{self.kwargs.get("pk")}')
