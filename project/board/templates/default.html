@@ -47,6 +47,15 @@
           {% endif %}
         </ul>
       </div>
+      <div class="navbar-nav">
+        {% if user.is_authenticated %}
+        <a href="{% url 'account_logout' %}" class="btn btn-sm btn-outline-danger ms-4"><i
+                class="bx bx-log-out-circle"></i> Выйти</a>
+        {% else %}
+        <a href="{% url 'account_login' %}" class="btn btn-sm btn-outline-success ms-4"><i
+                class="bx bx-log-in-circle"></i> Авторизоваться</a>
+        {% endif %}
+      </div>
     </div>
   </nav>
 

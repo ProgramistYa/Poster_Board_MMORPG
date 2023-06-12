@@ -21,7 +21,7 @@ class AccountProfile(LoginRequiredMixin, FormView):
     form_class = Auth_codeForm
 
     def dispatch(self, request, *args, **kwargs):
-        if UsersAuth.objects.filter(user=self.request.user).exists():
+        if UsersAuth.objects.filter(user=self.request.user.id).exists():
             return super().dispatch(request, *args, **kwargs)
         return HttpResponseRedirect(reverse('auth_code'))
 
@@ -48,7 +48,7 @@ def auth_code(request):
     global code_not_correct
     code_not_correct = ""
 
-    if not UsersAuth.objects.get(user=request.user).exists():
+    if not UsersAuth.objects.filter(user=request.user).exists():
         add_user = UsersAuth()
         add_user.user = request.user
         add_user.save()

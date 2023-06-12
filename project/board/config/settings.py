@@ -37,7 +37,6 @@ INSTALLED_APPS = [
 
     'callboard',
     'accounts',
-    'fpages',
 
     'django_apscheduler',
     'allauth',

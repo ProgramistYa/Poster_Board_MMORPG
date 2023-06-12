@@ -38,5 +38,9 @@ class Category(models.Model):
     def __str__(self):
         return f'{self.name}'
 
+class Author(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.user}'
 #example.com - sites - add sites

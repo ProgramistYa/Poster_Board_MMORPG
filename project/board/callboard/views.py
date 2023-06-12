@@ -113,13 +113,13 @@ class Responses(LoginRequiredMixin, ListView):
         context['title'] = title
         if title:
             post_id = Post.objects.get(title=title)
-            context['filter_responses'] = list(Responses.objects.filter(post_id=post_id).order_by('-dateCreation'))
+            context['filter_responses'] = list(Response.objects.filter(post_id=post_id).order_by('-dateCreation'))
             context['response_post_id'] = post_id.id
         else:
             context['filter_responses'] = list(
-                Responses.objects.filter(post_id__author_id=self.request.user).order_by('-dateCreation'))
+                Response.objects.filter(post_id__author_id=self.request.user).order_by('-dateCreation'))
             context['myresponses'] = list(
-                Responses.objects.filter(author_id=self.request.user).order_by('-dateCreation'))
+                Response.objects.filter(author_id=self.request.user).order_by('-dateCreation'))
             return context
 
     def post(self, request, *args, **kwargs):
