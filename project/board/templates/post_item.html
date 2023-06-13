@@ -13,6 +13,14 @@
     <span>| Категория: {{ post.get_category_display }}</span>
     <span>| Дата публикации: {{ post.dateCreation|date:'d-M-Y f' }}</span>
 
+<!--Для фото IMG-->
+
+{% if post.image %}
+<figure class="mb-4"><img class="img-fluid rounded" src="/media/media/japan_monk_asia_religion_zen_buddhist_japanese_traditional_icon_127311.png" alt="какое то img"/></figure>
+{% else %}
+<figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..."/>
+</figure>
+{% endif %}
 
     <br><br>
 

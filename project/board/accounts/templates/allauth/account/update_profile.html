@@ -7,8 +7,9 @@
 
 <form method="post">
 	{% csrf_token %}
-
-	{% buttons submit='Сохранить' %}{% endbuttons %}
+	{{ form }}
+	<br><br>
+	<button type="submit" class="btn btn-secondary"> Сохранить </button>
 </form>
 
 <a class="btn btn-secondary" href="{% url 'account_profile' %}" role="button">Закрыть</a>
